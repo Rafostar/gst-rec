@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const debug = require('debug')('gst-rec');
 const parseArgs = require('minimist');
 const express = require('express');
 const net = require('net');
@@ -11,6 +12,8 @@ const confLocation = '.config/gst-rec.json';
 const confPath = path.join(homedir, confLocation);
 
 var recorder = new gstRecorder({ output: 'file' });
+debug('Created new gstreamer-recorder object');
+
 var opts = {
 	boolean: ['ignore-config', 'show-config', 'version', 'help'],
 	string: [...Object.keys(recorder.opts), ...['http-port']],
@@ -18,6 +21,7 @@ var opts = {
 };
 var args = process.argv.slice(2);
 var argv = parseArgs(args, opts);
+debug(`\nObtained command line args: ${JSON.stringify(argv, null, 2)}\n`);
 
 if(argv.help)
 	return showHelp();
@@ -29,7 +33,9 @@ getCmdOpts();
 
 if(argv['show-config'])
 {
-	if(recorder.opts.hasOwnProperty('verbose')) delete recorder.opts.verbose;
+	if(recorder.opts.hasOwnProperty('verbose'))
+		delete recorder.opts.verbose;
+
 	return console.log(JSON.stringify(recorder.opts, null, 2));
 }
 
@@ -43,18 +49,23 @@ function getCmdOpts()
 {
 	if(!argv['ignore-config'])
 	{
+		debug('Searching for config file...');
 		if(fs.existsSync(confPath))
 		{
+			debug('Config file found');
 			var config = fs.readFileSync(confPath);
 
 			try {
 				config = JSON.parse(config);
 				recorder.opts = recorder.getOptions(recorder.opts, config);
+				debug('Successfully applied config from file');
 			}
 			catch(err) {
 				console.error(`Could not parse config file! Reason: ${err.message}`);
 			}
 		}
+		else
+			debug('Config file not found');
 	}
 
 	if(argv.output === '-')
@@ -84,10 +95,13 @@ function getCmdOpts()
 	}
 
 	recorder.opts = recorder.getOptions(recorder.opts, argv);
+	debug('Applied command line options');
 }
 
 function startRecording()
 {
+	debug(`\nStarting recording with options: ${JSON.stringify(recorder.opts, null, 2)}\n`);
+
 	if(recorder.opts.output === 'stdout')
 		return recorder.start().pipe(process.stdout);
 
@@ -138,6 +152,8 @@ function createHttpServer(port)
 
 		socket.once('connect', () =>
 		{
+			debug('New client connected to http server');
+
 			var type = (recorder.opts.format === 'matroska') ? 'x-matroska' : 'mp4';
 
 			res.setHeader('Content-Type', `video/${type}`);
