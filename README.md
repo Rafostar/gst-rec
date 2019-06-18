@@ -12,13 +12,10 @@ sudo npm install -g gst-rec
 Requires [GStreamer-1.0](https://gstreamer.freedesktop.org) with `gst-launch-1.0` binary and following GStreamer1 plugins: base, good, bad, ugly.
 
 ## Usage
-With default configuration running `gst-rec` will start recording desktop and save it to `/tmp` directory.
+With default configuration `gst-rec` will record desktop and save it to `/tmp` directory.
 
 ### Examples
 ```
-# Run with default options, ignoring custom config file:
-gst-rec --ignore-config
-
 # Record 25 fps video and scale resolution to HD:
 gst-rec --video width=1280,height=720,fps=25,scaling=true
 
@@ -27,6 +24,9 @@ gst-rec --preset ultrafast --format mp4 --file 'dir=/my/custom/with spaces/path,
 
 # Record desktop with audio from pulseaudio sink:
 gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor
+
+# Record desktop to `~/Videos` directory as MP4 file with AAC audio:
+gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor,encoder=faac --format mp4 --file dir=~/Videos
 
 # Run GStreamer tcp server to allow connecting from multiple devices
 gst-rec --output server --server host=127.0.0.1,port=8080
@@ -37,7 +37,10 @@ gst-rec --output server --server port=8080 --http-port 8081
 # Send scaled video output to `stdout` and receive it through `ffplay`
 gst-rec --video width=960,height=540,fps=30,scaling=true -o - | ffplay -fflags nobuffer -
 
-# Stream desktop to Chromecast using [castnow](https://github.com/xat/castnow):
+# Run with default options, ignoring custom config file:
+gst-rec --ignore-config
+
+# Stream desktop to Chromecast using `castnow`:
 gst-rec -o - | castnow --quiet -
 
 # Stream desktop with audio to Chromecast:
