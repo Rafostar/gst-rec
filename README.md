@@ -20,13 +20,16 @@ With default configuration `gst-rec` will record desktop and save it to `/tmp` d
 gst-rec --video width=1280,height=720,fps=25,scaling=true
 
 # Change encoding preset, video container, output file location and set custom filename:
-gst-rec --preset ultrafast --format mp4 --file 'dir=/my/custom/with spaces/path,name=My Awesome Recording'
+gst-rec --preset ultrafast --format mp4 --file 'dir=/my/custom/path,name=My Awesome Recording'
 
 # Record desktop with audio from pulseaudio sink:
 gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor
 
-# Record desktop and save it to `~/Videos` directory as MP4 file with AAC audio:
-gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor,encoder=faac --format mp4 --file dir=~/Videos
+# Show list of system audio devices:
+gst-rec --list-audio-devices
+
+# Record to `~/Videos` directory as MP4 file with AAC audio from dev0:
+gst-rec --audio device=dev0,encoder=faac --format mp4 --file dir=~/Videos
 
 # Run GStreamer tcp server to allow connecting from multiple devices:
 gst-rec --output server --server host=127.0.0.1,port=8080
@@ -44,7 +47,7 @@ gst-rec --ignore-config
 gst-rec -o - | castnow --quiet -
 
 # Stream desktop with audio to Chromecast:
-gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor,encoder=lamemp3enc -o - | castnow --quiet -
+gst-rec --audio device=dev0,encoder=lamemp3enc -o - | castnow --quiet -
 
 # Alter default configuration and display it in JSON format (can be placed in config file):
 gst-rec --preset superfast --video width=1280,height=720,fps=25,scaling=true --show-config
