@@ -15,7 +15,7 @@ var recorder = new gstRecorder({ output: 'file' });
 debug('Created new gstreamer-recorder object');
 
 var opts = {
-	boolean: ['ignore-config', 'show-config', 'version', 'help'],
+	boolean: ['ignore-config', 'show-config', 'list-audio-devices', 'version', 'help'],
 	string: [...Object.keys(recorder.opts), ...['http-port']],
 	alias: { o: 'output', h: 'help', gstPath: 'gst-path' }
 };
@@ -28,6 +28,12 @@ if(argv.help)
 
 if(argv.version)
 	return console.log(getVersion());
+
+if(argv['list-audio-devices'])
+{
+	var audioList = recorder.getAudioDevices();
+	return console.log(JSON.stringify(audioList, null, 2));
+}
 
 getCmdOpts();
 
@@ -96,6 +102,23 @@ function getCmdOpts()
 
 	recorder.opts = recorder.getOptions(recorder.opts, argv);
 	debug('Applied command line options');
+
+	var audioSrc = recorder.opts.audio.device;
+	if(	typeof audioSrc === 'string'
+		&& audioSrc.substring(0, 3) === 'dev'
+		&& Number.isInteger(parseInt(audioSrc.substring(3)))
+	) {
+		debug(`Searching for audio device with id: ${audioSrc}`);
+		var audioDevices = recorder.getAudioDevices();
+
+		if(audioDevices)
+			recorder.opts.audio.device = audioDevices.hasOwnProperty(audioSrc) ? audioDevices[audioSrc] : null;
+
+		if(recorder.opts.audio.device !== null)
+			debug(`Found audio device: ${recorder.opts.audio.device}`);
+		else
+			console.error('Requested audio device not found!');
+	}
 }
 
 function startRecording()
@@ -169,20 +192,21 @@ function createHttpServer(port)
 function showHelp()
 {
 	console.log([
-		'',
+		``,
 		`gst-rec ${getVersion()}, universal screen recorder powered by GStreamer`,
-		'Usage: gst-rec [OPTIONS]',
-		'',
-		'Options:',
-		'  -o, --output <mode>           Set output mode: file | server | stdout (default: file)',
+		`Usage: gst-rec [OPTIONS]`,
+		``,
+		`Options:`,
+		`  -o, --output <mode>           Set output mode: file | server | stdout (default: file)`,
 		`  --ignore-config               Do not read the user configuration in ~/${confLocation}`,
 		`  --show-config                 Only displays currently applied configuration and exits`,
+		`  --list-audio-devices          Shows list of audio sources obtained from "pacmd" in JSON format`,
 		`  --gst-path <path>             Path to gst-launch-1.0 binary (default: ${recorder.opts.gstPath})`,
 		`  --preset <name>               Encoding speed preset: ultrafast | superfast (default: ${recorder.opts.preset})`,
 		`  --format <container>          Used media container: matroska | mp4 (default: ${recorder.opts.format})`,
-		'  --http-port <port>            Create simple http server besides GStreamer tcp server (only when output: server)',
+		`  --http-port <port>            Create simple http server besides GStreamer tcp server (only when output: server)`,
 		`  --pipewire <key=value,...>`,
-		'      path=<value>              Pipewire source path',
+		`      path=<value>              Pipewire source path`,
 		`  --video <key=value,...>`,
 		`      width=<value>             Horizontal video resolution - ignored when scaling is disabled (default: ${recorder.opts.video.width})`,
 		`      height=<value>            Vertical video resolution - ignored when scaling is disabled (default: ${recorder.opts.video.height})`,
@@ -200,9 +224,9 @@ function showHelp()
 		`  --file <key=value,...>`,
 		`      dir=<path>                Path to directory for saving screen records (default: ${recorder.opts.file.dir})`,
 		`      name=<filename>           Current capture filename without extension (default: ${recorder.opts.file.name} = auto-generated)`,
-		'  --version                     Show current app version',
-		'  -h, --help                    This help screen',
-		''
+		`  --version                     Show current app version`,
+		`  -h, --help                    This help screen`,
+		``
 	].join('\n'));
 }
 
