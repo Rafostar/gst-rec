@@ -12,7 +12,9 @@ sudo npm install -g gst-rec
 Requires [GStreamer-1.0](https://gstreamer.freedesktop.org) with `gst-launch-1.0` binary and following GStreamer1 plugins: base, good, bad, ugly.
 
 ## Usage
-With default configuration `gst-rec` will record desktop and save it to `/tmp` directory.
+The application is intended for use from terminal with `gst-rec` command.
+
+With default configuration `gst-rec` will record desktop and save it to `/tmp` directory. Default configuration can be overwritten by `~/.config/gst-rec.json` config file.
 
 ### Examples
 ```
@@ -56,9 +58,7 @@ gst-rec --preset superfast --video width=1280,height=720,fps=25,scaling=true --s
 gst-rec --ignore-config --show-config > ~/.config/gst-rec.json
 ```
 
-Default configuration can be overwritten by `~/.config/gst-rec.json` config file.
-
-Run `gst-rec --help` for list of all available options.
+Run `gst-rec --help` for a list of all available options.
 
 ## Donation
 If you like my work please support it by buying me a cup of coffee :grin:
