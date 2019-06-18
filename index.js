@@ -52,7 +52,7 @@ function getCmdOpts()
 				recorder.opts = recorder.getOptions(recorder.opts, config);
 			}
 			catch(err) {
-				console.error('Could not parse config file!');
+				console.error(`Could not parse config file! Reason: ${err.message}`);
 			}
 		}
 	}
