@@ -1,0 +1,36 @@
+{
+  "name": "gst-rec",
+  "version": "0.0.1",
+  "description": "Universal screen recorder powered by GStreamer",
+  "main": "index.js",
+  "bin": {
+    "gst-rec": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rafostar/gst-rec.git"
+  },
+  "keywords": [
+    "GStreamer",
+    "recorder",
+    "screen",
+    "display",
+    "capture",
+    "record",
+    "stream"
+  ],
+  "author": "Rafostar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rafostar/gst-rec/issues"
+  },
+  "homepage": "https://github.com/Rafostar/gst-rec#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "gstreamer-recorder": "^0.1.0",
+    "minimist": "^1.2.0"
+  }
+}
