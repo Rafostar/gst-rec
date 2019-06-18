@@ -16,7 +16,7 @@ With default configuration `gst-rec` will record desktop and save it to `/tmp` d
 
 ### Examples
 ```
-# Record 25 fps video and scale resolution to HD:
+# Record 25 fps video and scale it to HD resolution:
 gst-rec --video width=1280,height=720,fps=25,scaling=true
 
 # Change encoding preset, video container, output file location and set custom filename:
@@ -25,16 +25,16 @@ gst-rec --preset ultrafast --format mp4 --file 'dir=/my/custom/with spaces/path,
 # Record desktop with audio from pulseaudio sink:
 gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor
 
-# Record desktop to `~/Videos` directory as MP4 file with AAC audio:
+# Record desktop and save it to `~/Videos` directory as MP4 file with AAC audio:
 gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor,encoder=faac --format mp4 --file dir=~/Videos
 
-# Run GStreamer tcp server to allow connecting from multiple devices
+# Run GStreamer tcp server to allow connecting from multiple devices:
 gst-rec --output server --server host=127.0.0.1,port=8080
 
-# Create http server in addition to tcp server for devices that only support it
+# Create http server in addition to tcp server for devices that only support it:
 gst-rec --output server --server port=8080 --http-port 8081
 
-# Send scaled video output to `stdout` and receive it through `ffplay`
+# Send scaled video output to `stdout` and receive it through `ffplay`:
 gst-rec --video width=960,height=540,fps=30,scaling=true -o - | ffplay -fflags nobuffer -
 
 # Run with default options, ignoring custom config file:
@@ -48,6 +48,9 @@ gst-rec --audio device=alsa_output.pci-0000_00_01.1.hdmi-stereo.monitor,encoder=
 
 # Alter default configuration and display it in JSON format (can be placed in config file):
 gst-rec --preset superfast --video width=1280,height=720,fps=25,scaling=true --show-config
+
+# Create new config file with default vaules:
+gst-rec --ignore-config --show-config > ~/.config/gst-rec.json
 ```
 
 Default configuration can be overwritten by `~/.config/gst-rec.json` config file.
