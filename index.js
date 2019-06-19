@@ -39,12 +39,7 @@ if(argv['list-audio-devices'])
 getCmdOpts();
 
 if(argv['show-config'])
-{
-	if(recorder.opts.hasOwnProperty('verbose'))
-		delete recorder.opts.verbose;
-
 	return console.log(JSON.stringify(recorder.opts, null, 2));
-}
 
 process.on('SIGINT', () => shutDown());
 process.on('SIGTERM', () => shutDown());
