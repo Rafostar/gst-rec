@@ -17,7 +17,8 @@ debug('Created new gstreamer-recorder object');
 var opts = {
 	boolean: ['ignore-config', 'show-config', 'list-audio-devices', 'version', 'help'],
 	string: [...Object.keys(recorder.opts), ...['http-port']],
-	alias: { o: 'output', h: 'help', gstPath: 'gst-path' }
+	alias: { o: 'output', h: 'help', gstPath: 'gst-path' },
+	unknown: (unk) => shutDown(`Unknown option: ${unk}`)
 };
 var args = process.argv.slice(2);
 var argv = parseArgs(args, opts);
@@ -243,9 +244,11 @@ function shutDown(err)
 
 	if(err)
 	{
-		if(err.code != 'EPIPE')
-			console.error(err.message);
-
+		if(err.code !== 'EPIPE')
+		{
+			var msg = (err.message) ? err.message : err;
+			console.error(msg);
+		}
 		process.exit(1);
 	}
 
