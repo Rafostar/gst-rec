@@ -145,9 +145,9 @@ function startRecording()
 			}
 			break;
 		case('file'):
-			var extension = (recorder.opts.format === 'matroska') ? '.mkv' : '.mp4';
-			if(recorder.opts.file.name)
+			if(recorder.opts.file.name !== null)
 			{
+				var extension = (recorder.opts.format === 'matroska') ? '.mkv' : '.mp4';
 				var filepath = path.join(recorder.opts.file.dir, recorder.opts.file.name + extension);
 				console.log(`Recording to file: "${filepath}"`);
 			}
