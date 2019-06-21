@@ -34,7 +34,10 @@ if(argv.version)
 if(argv['list-audio-devices'])
 {
 	var audioList = recorder.getAudioDevices();
-	return console.log(JSON.stringify(audioList, null, 2));
+	if(Object.keys(audioList).length)
+		console.log(JSON.stringify(audioList, null, 2));
+
+	return;
 }
 
 getCmdOpts();
