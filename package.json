@@ -31,7 +31,7 @@
   "dependencies": {
     "debug": "^4.1.1",
     "express": "^4.17.1",
-    "gstreamer-recorder": "^0.1.3",
+    "gstreamer-recorder": "^0.1.6",
     "minimist": "^1.2.0"
   }
 }
