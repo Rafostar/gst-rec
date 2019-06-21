@@ -1,6 +1,6 @@
 # gst-rec
-![License](https://img.shields.io/npm/l/gst-rec.svg)
-![Downloads](https://img.shields.io/npm/dt/gst-rec.svg)
+[![License](https://img.shields.io/npm/l/gst-rec.svg)](https://github.com/Rafostar/gst-rec/blob/master/LICENSE)
+[![Downloads](https://img.shields.io/npm/dt/gst-rec.svg)](https://www.npmjs.com/package/gst-rec)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TFVDFD88KQ322)
 [![Donate](https://img.shields.io/badge/Donate-PayPal.Me-lightgrey.svg)](https://www.paypal.me/Rafostar)
 [![Twitter](https://img.shields.io/twitter/url/https/www.npmjs.com/package/gst-rec.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fgst-rec)
