@@ -1,6 +1,6 @@
 {
   "name": "gst-rec",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Universal screen recorder powered by GStreamer",
   "main": "index.js",
   "bin": {
