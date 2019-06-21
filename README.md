@@ -1,7 +1,9 @@
 # gst-rec
-[![npmjs](https://img.shields.io/badge/npmjs-repo-brightgreen.svg)](https://www.npmjs.com/package/gst-rec)
+![License](https://img.shields.io/npm/l/gst-rec.svg)
+![Downloads](https://img.shields.io/npm/dt/gst-rec.svg)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TFVDFD88KQ322)
 [![Donate](https://img.shields.io/badge/Donate-PayPal.Me-lightgrey.svg)](https://www.paypal.me/Rafostar)
+[![Twitter](https://img.shields.io/twitter/url/https/www.npmjs.com/package/gst-rec.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fgst-rec)
 
 Universal screen recorder powered by GStreamer
 
