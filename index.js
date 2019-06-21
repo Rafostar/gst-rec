@@ -2,11 +2,12 @@
 
 const fs = require('fs');
 const path = require('path');
+const homedir = require('os').homedir();
+const net = require('net');
+const { spawnSync } = require('child_process');
 const debug = require('debug')('gst-rec');
 const parseArgs = require('minimist');
 const express = require('express');
-const net = require('net');
-const homedir = require('os').homedir();
 const gstRecorder = require('gstreamer-recorder');
 const confLocation = '.config/gst-rec.json';
 const confPath = path.join(homedir, confLocation);
@@ -187,9 +188,14 @@ function createHttpServer(port)
 
 function showHelp()
 {
-	console.log([
+	const placeholder = 'PLACEHOLDER';
+
+	/* Declare info before processing cmd opts and config file for default values */
+	var helpInfo = [
 		``,
 		`gst-rec ${getVersion()}, universal screen recorder powered by GStreamer`,
+		`${placeholder}`,
+		``,
 		`Usage: gst-rec [OPTIONS]`,
 		``,
 		`Options:`,
@@ -223,13 +229,31 @@ function showHelp()
 		`  --version                     Show current app version`,
 		`  -h, --help                    This help screen`,
 		``
-	].join('\n'));
+	];
+
+	getCmdOpts();
+
+	var index = helpInfo.indexOf(placeholder);
+	helpInfo[index] = getGstVersion(true);
+
+	console.log(helpInfo.join('\n'));
 }
 
 function getVersion()
 {
 	var pkg = require('./package.json');
 	return pkg.version;
+}
+
+function getGstVersion(fullString)
+{
+	var gstLaunch = spawnSync(recorder.opts.gstPath, ['--gst-version'],
+		{ stdio: ['ignore', 'pipe', 'ignore'] });
+
+	var outStr = (gstLaunch.output) ?
+		String(gstLaunch.output[1]).replace(/\n/, '').substring(gstLaunch.output[1].indexOf('1.')) : 'undetected';
+
+	return (fullString === true) ? `GStreamer version: ${outStr}` : outStr;
 }
 
 function shutDown(err)
